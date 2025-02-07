@@ -26,7 +26,7 @@ jobs:
 
       - name: Get Ecr host
         run: |
-          ecrhost=$(aws ecr describe-repositories --repository-names "${{ env.PROJECT }}"-repository | grep -oP '"repositoryUri": "\K[^"]+(?=")')
+          ecrhost=$(aws ecr describe-repositories --repository-names "${{ vars.PROJECT }}"-repository | grep -oP '"repositoryUri": "\K[^"]+(?=")')
           echo "ECRHOST=$ecrhost" >> $GITHUB_ENV
 
       - name: Configure Docker
@@ -79,10 +79,10 @@ jobs:
         terraform plan -var='aws_region=${{ vars.AWS_REGION }}'  \
           -var='app_version=${{ env.VERSION }}' \
           -var="tokensecret=${{ secrets.AWS_SECRET_ACCESS_KEY }}" \
-          -var="projectname=${{ env.PROJECT }}" \
-          -var="buckets3=${{ env.BUCKET }}" \
-          -var="task_queue=${{ env.TASK_QUEUE }}" \
-          -var="process_queue=${{ env.PROCESS_QUEUE }}" \
+          -var="projectname=${{ vars.PROJECT }}" \
+          -var="buckets3=${{ vars.BUCKET }}" \
+          -var="task_queue=${{ vars.TASK_QUEUE }}" \
+          -var="process_queue=${{ vars.PROCESS_QUEUE }}" \
           -var="access_key=${{ secrets.AWS_ACCESS_KEY_ID }}"
 
   deploy:
@@ -116,9 +116,9 @@ jobs:
         terraform apply -var='aws_region=${{ vars.AWS_REGION }}'  \
           -var='app_version=${{ env.VERSION }}' \
           -var="tokensecret=${{ secrets.AWS_SECRET_ACCESS_KEY }}" \
-          -var="projectname=${{ env.PROJECT }}" \
-          -var="buckets3=${{ env.BUCKET }}" \
-          -var="task_queue=${{ env.TASK_QUEUE }}" \
-          -var="process_queue=${{ env.PROCESS_QUEUE }}" \
+          -var="projectname=${{ vars.PROJECT }}" \
+          -var="buckets3=${{ vars.BUCKET }}" \
+          -var="task_queue=${{ vars.TASK_QUEUE }}" \
+          -var="process_queue=${{ vars.PROCESS_QUEUE }}" \
           -var="access_key=${{ secrets.AWS_ACCESS_KEY_ID }}" \
           --auto-approve
