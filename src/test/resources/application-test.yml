@@ -1,0 +1,12 @@
+AWS_REGION: us-east-1
+AWS_ACCESS_KEY: localstack
+AWS_SECRET_KEY: localstack
+BUCKET_NAME: bucket
+TASK_QUEUE: task
+PROCESS_QUEUE: process
+
+spring:
+  cloud:
+    aws:
+      sqs:
+        enabled: false
