@@ -39,11 +39,11 @@ jobs:
           echo "VERSION=$version" >> $GITHUB_ENV
         
       - name: Build Docker Image
-        run: docker build -t "${{ env.PROJECT }}" .
+        run: docker build -t "${{ vars.PROJECT }}" .
 
       - name: Create tag repository
         run:
-          docker tag "${{ env.PROJECT }}":latest "${{ env.ECRHOST }}:${{ env.VERSION }}"
+          docker tag "${{ vars.PROJECT }}":latest "${{ env.ECRHOST }}:${{ env.VERSION }}"
 
       - name: Push Docker Image
         run: docker push ${{ env.ECRHOST }}:${{ env.VERSION }}
