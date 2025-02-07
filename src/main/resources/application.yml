@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: Video Processor
+  cloud:
+    aws:
+#      endpoint: ${AWS_ENDPOINT}
+      region:
+        static: ${AWS_REGION}
+      credentials:
+        access-key: ${AWS_ACCESS_KEY}
+        secret-key: ${AWS_SECRET_KEY}
+
+s3:
+  bucket: ${BUCKET_NAME}
+
+messaging:
+  task-status-queue: ${TASK_QUEUE}
+  processing-queue: ${PROCESS_QUEUE}
