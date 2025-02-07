@@ -33,8 +33,8 @@ public class FrameGrabber implements ImagesExtractor {
 
   public void process(Integer intervalInSeconds, FFmpegFrameGrabber grabber, Java2DFrameConverter frameConverter, ZipOutputStream imagesZip) throws IOException {
     grabber.start();
-    int frameInterval = calculateFrameInterval(intervalInSeconds, grabber);
-    for (int i = 0; i < grabber.getLengthInVideoFrames(); i+= frameInterval) {
+    long frameInterval = calculateFrameInterval(intervalInSeconds, grabber);
+    for (int i = 0; i < grabber.getLengthInVideoFrames(); i+= (int) frameInterval) {
       grabber.setVideoFrameNumber(i);
 
       byte[] imageByteArray = getImageByteArray(frameConverter, grabber);
@@ -56,11 +56,10 @@ public class FrameGrabber implements ImagesExtractor {
       "jpg",
       output
     );
-    byte[] imageByteArray = output.toByteArray();
-    return imageByteArray;
+    return output.toByteArray();
   }
 
-  public int calculateFrameInterval(Integer intervalInSeconds, FFmpegFrameGrabber grabber) {
-    return Long.valueOf(Math.round(grabber.getVideoFrameRate() * intervalInSeconds)).intValue();
+  public long calculateFrameInterval(Integer intervalInSeconds, FFmpegFrameGrabber grabber) {
+    return Math.round(grabber.getVideoFrameRate() * intervalInSeconds);
   }
 }
