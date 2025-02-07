@@ -11,7 +11,7 @@
 
 	<groupId>com.soat.hackathon</groupId>
 	<artifactId>video-processor</artifactId>
-	<version>0.0.2</version>
+	<version>0.0.3</version>
 	<name>Video Processor</name>
 	<description>Demo project for Spring Boot</description>
 
