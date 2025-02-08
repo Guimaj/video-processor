@@ -37,14 +37,12 @@ public class SQSListener {
     try {
       var dto = mapper.readValue(message, ReceivedMessageDto.class);
 
-      var splitedPath = dto.videoKey().split("/");
-      var splitedVideoName = splitedPath[splitedPath.length - 1].split("\\.");
-      VideoData videoData = new VideoData(splitedVideoName[0], splitedVideoName[1], dto.videoKey(), dto.intervalInSeconds());
+      VideoData videoData = new VideoData(dto.keyVideo(), dto.keyZip(), dto.intervalInSeconds());
 
       getFramesFromVideoUseCase.extractImagesFromVideoAndUploadZip(videoData);
 
-      logger.info("Video {} sucessfully processed.", dto.videoKey());
-      sendMessageProvider.sendSucessMessage(dto.videoKey());
+      logger.info("Video {} sucessfully processed.", dto.keyVideo());
+      sendMessageProvider.sendSucessMessage(dto.id());
 
     } catch (JsonParseException e){
       logger.error("Unable to parse message: {}", message, e);

@@ -34,15 +34,15 @@ class SQSListenerTest {
 
   @Test
   void testListenMessageSucessfully() throws IOException, GettingExternalResourceException {
-    var message = "{\"videoKey\" : \"videos/test1.mp4\", \"intervalInSeconds\" : 20}";
+    var message = "{\"id\":\"id\", \"keyVideo\" : \"videos/test.mp4\", \"keyZip\" : \"images/test.zip\", \"intervalInSeconds\" : 20}";
 
     when(mapper.readValue(message, ReceivedMessageDto.class))
-      .thenReturn(new ReceivedMessageDto("videos/test1.mp4", 20, 0));
+      .thenReturn(new ReceivedMessageDto("id", "videos/test1.mp4", 20, "images/test.zip",0));
 
     listener.listen(message);
 
     verify(getFramesUseCase).extractImagesFromVideoAndUploadZip(any());
-    verify(sendMessageProvider).sendSucessMessage("videos/test1.mp4");
+    verify(sendMessageProvider).sendSucessMessage("id");
   }
 
   @Test
@@ -64,7 +64,7 @@ class SQSListenerTest {
     var message = "{\"videoKey\" : \"videos/test1.mp4\", \"intervalInSeconds\" : 20}";
 
     when(mapper.readValue(message, ReceivedMessageDto.class))
-      .thenReturn(new ReceivedMessageDto("videos/test1.mp4", 20, 0));
+      .thenReturn(new ReceivedMessageDto("id", "videos/test1.mp4", 20, "images/test.zip",0));
 
     Mockito.doThrow(new GettingExternalResourceException(new RuntimeException()))
       .when(getFramesUseCase).extractImagesFromVideoAndUploadZip(any());
@@ -81,7 +81,7 @@ class SQSListenerTest {
     var message = "{\"videoKey\" : \"videos/test1.mp4\", \"intervalInSeconds\" : 20}";
 
     when(mapper.readValue(message, ReceivedMessageDto.class))
-      .thenReturn(new ReceivedMessageDto("videos/test1.mp4", 20, 0));
+      .thenReturn(new ReceivedMessageDto("id", "videos/test1.mp4", 20, "images/test.zip",0));
 
     Mockito.doThrow(new RuntimeException())
       .when(getFramesUseCase).extractImagesFromVideoAndUploadZip(any());

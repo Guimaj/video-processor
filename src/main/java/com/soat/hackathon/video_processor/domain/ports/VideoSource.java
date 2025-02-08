@@ -7,7 +7,7 @@ import java.io.OutputStream;
 
 public interface VideoSource {
 
-  InputStream downloadVideoAsStream(String videoName) throws GettingExternalResourceException;
+  InputStream downloadVideoAsStream(String videoKey) throws GettingExternalResourceException;
 
-  OutputStream createResourceOutputStream(String videoName) throws GettingExternalResourceException;
+  OutputStream createResourceOutputStream(String zipKey) throws GettingExternalResourceException;
 }

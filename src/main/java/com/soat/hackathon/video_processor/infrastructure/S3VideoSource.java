@@ -1,6 +1,5 @@
 package com.soat.hackathon.video_processor.infrastructure;
 
-import com.soat.hackathon.video_processor.app.listener.SQSListener;
 import com.soat.hackathon.video_processor.domain.exception.GettingExternalResourceException;
 import com.soat.hackathon.video_processor.domain.ports.VideoSource;
 import io.awspring.cloud.s3.S3Resource;
@@ -29,10 +28,10 @@ public class S3VideoSource implements VideoSource {
   }
 
   @Override
-  public InputStream downloadVideoAsStream(final String videoName) throws GettingExternalResourceException {
+  public InputStream downloadVideoAsStream(final String videoKey) throws GettingExternalResourceException {
     try {
-      logger.debug("Getting video resource: " + videoName);
-      S3Resource s3Resource = s3Template.download(bucketName, videoName);
+      logger.debug("Getting video resource: " + videoKey);
+      S3Resource s3Resource = s3Template.download(bucketName, videoKey);
       return s3Resource.getInputStream();
     } catch (IOException e) {
       throw new GettingExternalResourceException(e);
@@ -40,10 +39,10 @@ public class S3VideoSource implements VideoSource {
   }
 
   @Override
-  public OutputStream createResourceOutputStream(final String videoName) throws GettingExternalResourceException {
+  public OutputStream createResourceOutputStream(final String zipKey) throws GettingExternalResourceException {
     try {
-      logger.debug("Generate Zip resource for video " + videoName);
-      var resource = s3Template.createResource(bucketName, "images/"+ videoName + ".zip");
+      logger.debug("Generate Zip resource for video " + zipKey);
+      var resource = s3Template.createResource(bucketName, zipKey);
       return resource.getOutputStream();
     } catch (IOException e) {
       throw new GettingExternalResourceException(e);

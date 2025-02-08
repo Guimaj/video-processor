@@ -29,17 +29,17 @@ public class SendMessageProvider {
     this.processQueue = processQueue;
   }
 
-  public void sendSucessMessage(String videoKey) throws JsonProcessingException {
+  public void sendSucessMessage(String id) throws JsonProcessingException {
     logger.debug("Sending sucess message to queue {}", taskStatusQueue);
     sqsTemplate.sendAsync(taskStatusQueue,
-      mapper.writeValueAsString(new MessageToSendDto(videoKey, null)));
+      mapper.writeValueAsString(new MessageToSendDto(id, "Concluido")));
   }
 
   public void sendErrorStatusMessage(String message, Exception e) throws JsonProcessingException {
     logger.debug("Sending error status message to queue {}", taskStatusQueue);
     var dto = mapper.readValue(message, ReceivedMessageDto.class);
     sqsTemplate.sendAsync(taskStatusQueue,
-      mapper.writeValueAsString(new MessageToSendDto(dto.videoKey(), e.getMessage())));
+      mapper.writeValueAsString(new MessageToSendDto(dto.id(),"Falha no Processamento")));
   }
 
   public void sendMessageToReprocess(String message) throws JsonProcessingException {
@@ -48,7 +48,7 @@ public class SendMessageProvider {
     logger.info("Sending message to reprocess: {}",message);
       sqsTemplate.sendAsync(
         processQueue,
-        mapper.writeValueAsString(new ReceivedMessageDto(dto.videoKey(), dto.intervalInSeconds(), dto.attemptCounter() + 1))
+        mapper.writeValueAsString(new ReceivedMessageDto(dto.id(), dto.keyVideo(), dto.intervalInSeconds(), dto.keyZip(), dto.attemptCounter() + 1))
       );
     }
   }
