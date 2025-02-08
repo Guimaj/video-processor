@@ -17,6 +17,7 @@ module "mslanchonete" {
   processqueue = var.process_queue
   accesskey    = var.access_key
   token_secret = var.tokensecret
+  cluster      = var.cluster_name
 }
 
 variable "aws_region" {
@@ -34,6 +35,12 @@ variable "projectname" {
   type        = string
   default     = "videoprocessor"
   description = "Application Name"
+}
+
+variable "cluster_name" {
+  type        = string
+  default     = "hackaton"
+  description = "cluster Name"
 }
 
 variable "tokensecret" {
