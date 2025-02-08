@@ -33,20 +33,20 @@ class SendMessageProviderTest {
 
   @Test
   void testSendErrorStatusMessage() throws JsonProcessingException {
-    provider.sendErrorStatusMessage("{\"videoKey\" : \"videos/test1.mp4\", \"intervalInSeconds\" : 20}", new RuntimeException("erro"));
-    verify(sqsTemplate).sendAsync("task", "{\"videoKey\":\"videos/test1.mp4\",\"error\":\"erro\"}");
+    provider.sendErrorStatusMessage("{\"id\":\"id\", \"keyVideo\" : \"videos/test.mp4\", \"keyZip\" : \"images/test.zip\", \"intervalInSeconds\" : 20}", new RuntimeException("erro"));
+    verify(sqsTemplate).sendAsync("task", "{\"x-amz-arquivo-id\":\"id\",\"status\":\"Falha no Processamento\"}");
   }
 
   @Test
   void testSendMessageToReprocess() throws JsonProcessingException {
-    provider.sendMessageToReprocess("{\"videoKey\" : \"videos/test1.mp4\", \"intervalInSeconds\" : 20}");
+    provider.sendMessageToReprocess("{\"id\":\"id\", \"keyVideo\" : \"videos/test.mp4\", \"keyZip\" : \"images/test.zip\", \"intervalInSeconds\" : 20}");
     verify(sqsTemplate).sendAsync("process",
-      "{\"videoKey\":\"videos/test1.mp4\",\"intervalInSeconds\":20,\"attemptCounter\":1}");
+      "{\"id\":\"id\",\"keyVideo\":\"videos/test.mp4\",\"keyZip\":\"images/test.zip\",\"intervalInSeconds\":20,\"attemptCounter\":1}");
   }
 
   @Test
   void testDoesntSendMessageToReprocess() throws JsonProcessingException {
-    provider.sendMessageToReprocess("{\"videoKey\":\"videos/test1.mp4\",\"intervalInSeconds\":20,\"attemptCounter\":3}");
+    provider.sendMessageToReprocess("{\"id\":\"id\", \"keyVideo\" : \"videos/test.mp4\", \"keyZip\" : \"images/test.zip\", \"intervalInSeconds\" : 20,\"attemptCounter\":3}");
     verify(sqsTemplate, never()).sendAsync(any(), any());
   }
 }

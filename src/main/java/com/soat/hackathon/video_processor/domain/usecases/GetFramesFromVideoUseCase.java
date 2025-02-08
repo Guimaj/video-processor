@@ -21,8 +21,8 @@ public class GetFramesFromVideoUseCase {
 
     try {
       imagesExtractor.extractFramesToImageZipInOutputStream(
-        videoSource.downloadVideoAsStream(data.location()),
-        videoSource.createResourceOutputStream(data.name()),
+        videoSource.downloadVideoAsStream(data.videoKey()),
+        videoSource.createResourceOutputStream(data.zipKey()),
         data.intervalInSeconds()
       );
 
