@@ -29,7 +29,7 @@ provider "aws" {
 }
 
 locals {
-  cluster_name = "${var.project_name}-cluster"
+  cluster_name = var.cluster
 }
 
 data "aws_eks_cluster" "default" {

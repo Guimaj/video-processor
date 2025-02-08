@@ -38,4 +38,4 @@ jobs:
         cd terraform
         terraform fmt -recursive
         terraform init
-        terraform destroy -var='aws_region=${{ vars.AWS_REGION }}' -var='app_version=${{ env.VERSION }}' -var="tokensecret=${{ secrets.AWS_SECRET_ACCESS_KEY }}" -var="projectname=${{ vars.PROJECT }}" -var="buckets3=${{ vars.BUCKET }}" -var="task_queue=${{ vars.TASK_QUEUE }}" -var="process_queue=${{ vars.PROCESS_QUEUE }}" -var="access_key=${{ secrets.AWS_ACCESS_KEY_ID }}" --auto-approve
+        terraform destroy -var='aws_region=${{ vars.AWS_REGION }}' -var='app_version=${{ env.VERSION }}' -var="tokensecret=${{ secrets.AWS_SECRET_ACCESS_KEY }}" -var="projectname=${{ vars.PROJECT }}" -var="cluster_name=${{ vars.CLUSTER }}" -var="buckets3=${{ vars.BUCKET }}" -var="task_queue=${{ vars.TASK_QUEUE }}" -var="process_queue=${{ vars.PROCESS_QUEUE }}" -var="access_key=${{ secrets.AWS_ACCESS_KEY_ID }}" --auto-approve

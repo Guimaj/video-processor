@@ -13,6 +13,11 @@ variable "appversion" {
   description = "version to deploy"
 }
 
+variable "cluster" {
+  type        = string
+  description = "cluster eks"
+}
+
 variable "bucket" {
   type        = string
   description = "bucket name"
