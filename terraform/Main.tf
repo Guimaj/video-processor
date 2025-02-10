@@ -1,6 +1,6 @@
 terraform {
   backend "s3" {
-    bucket = "ms-lanchonete"
+    bucket = "fiap-hackaton-video-bucket"
     key    = "deployment-service/terraform.tfstate"
     region = "us-east-1"
   }
